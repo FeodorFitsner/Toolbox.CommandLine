@@ -47,32 +47,37 @@ namespace Toolbox.CommandLine
                 else if (arg[0] != Parser.OptionChar)
                     result.SetResult(Result.MissingOption, $"option exspected on [{count}] '{arg}'.");
                 else
-                {
-                    var name = arg.Substring(1);
-                    var option = Options.FirstOrDefault(o => o.Name == name);
-
-                    if (option == null)
-                        result.SetResult(Result.UnknownOption, $"option not known on [{count}] '{arg}'.");
+                {                    
+                    if (Parser.IsHelp(arg))
+                        result.SetResult(Result.RequestHelp);
                     else
                     {
-                        if (option.IsSwitch)
-                        {
-                            option.SetValue(result.Option, true);
-                        }
+                        var name = arg.Substring(1);
+                        var option = Options.FirstOrDefault(o => o.Name == name);
+
+                        if (option == null)
+                            result.SetResult(Result.UnknownOption, $"option not known on [{count}] '{arg}'.");
                         else
                         {
-                            if (queue.Count==0)
-                                result.SetResult(Result.MissingValue, $"option needs value after [{count}] '{arg}'.");
+                            if (option.IsSwitch)
+                            {
+                                option.SetValue(result.Option, true);
+                            }
                             else
                             {
-                                var value = queue.Dequeue();
-                                try
+                                if (queue.Count == 0)
+                                    result.SetResult(Result.MissingValue, $"option needs value after [{count}] '{arg}'.");
+                                else
                                 {
-                                    option.SetValue(result.Option, value);
-                                }
-                                catch (Exception exception)
-                                {
-                                    result.SetResult(Result.BadValue, $"bad option value at [{count}] '{arg}'='{value}' ({exception.Message}).");
+                                    var value = queue.Dequeue();
+                                    try
+                                    {
+                                        option.SetValue(result.Option, value);
+                                    }
+                                    catch (Exception exception)
+                                    {
+                                        result.SetResult(Result.BadValue, $"bad option value at [{count}] '{arg}'='{value}' ({exception.Message}).");
+                                    }
                                 }
                             }
                         }

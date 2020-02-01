@@ -24,6 +24,12 @@ namespace Toolbox.CommandLine
             Arguments = types.Select(t => new Arguments(this, t)).ToArray();
             if (Arguments.Length > 1)
             {
+                var noVerbs = Arguments.Where(a => a.Verb == null);
+                if (noVerbs.Any())
+                {
+                    throw new ArgumentException($"no verb on types: {string.Join(", ", noVerbs.Select(a => a.Type.FullName))}");
+                }
+
                 if (Arguments.GroupBy(a => a.Verb).Any(g => g.Count()>1))
                 {
                     throw new ArgumentException($"duplicate verbs on parsing types.", nameof(types));
@@ -35,9 +41,22 @@ namespace Toolbox.CommandLine
         {
             return new Parser(typeof(T));
         }
+        public static Parser Create<T1,T2>() where T1 : new() where T2 : new()
+        {
+            return new Parser(typeof(T1), typeof(T2));
+        }
 
         public Arguments[] Arguments { get; }
         public char OptionChar { get; set; } = '-';
+
+        public List<string> HelpOptions { get; } = new List<string> { "?", "h", "help" };
+        internal bool IsHelp(string arg)
+        {
+            if (arg == "") return false;
+            if (arg[0] != OptionChar) return false;
+            var name = arg.Substring(1);
+            return HelpOptions.Contains(name);
+        }
 
         public ParseResult Parse(params string[] args)
         {
@@ -59,9 +78,19 @@ namespace Toolbox.CommandLine
                 {
                     var verb = queue.Dequeue();
 
-                    arguments = Arguments.FirstOrDefault(a => a.Verb == verb);
-                    if (arguments == null)
-                        result.SetResult(Result.MissingVerb, $"verb '{args[0]}' not defined");                    
+                    if (verb=="")
+                        result.SetResult(Result.MissingVerb, "empty verb");
+                    else if (IsHelp(verb))
+                    {
+                        result.SetResult(Result.RequestHelp);
+                    }
+                    else
+                    {
+
+                        arguments = Arguments.FirstOrDefault(a => a.Verb == verb);
+                        if (arguments == null)
+                            result.SetResult(Result.MissingVerb, $"verb '{args[0]}' not defined");
+                    }
                 }                    
             }
 

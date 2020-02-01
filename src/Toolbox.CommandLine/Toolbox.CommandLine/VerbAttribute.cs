@@ -2,7 +2,7 @@
 
 namespace Toolbox.CommandLine
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class VerbAttribute : Attribute
     {
         public VerbAttribute(string verb)

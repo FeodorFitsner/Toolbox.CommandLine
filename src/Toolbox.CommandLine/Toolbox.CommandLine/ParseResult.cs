@@ -27,5 +27,6 @@ namespace Toolbox.CommandLine
         UnknownOption,
         MissingValue,
         BadValue,
+        RequestHelp    
     }
 }

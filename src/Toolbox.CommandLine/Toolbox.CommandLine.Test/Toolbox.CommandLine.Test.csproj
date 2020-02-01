@@ -49,6 +49,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VerbListOption.cs" />
+    <Compile Include="VerbTest.cs" />
+    <Compile Include="VerbAddOption.cs" />
     <Compile Include="DuplicateOption.cs" />
     <Compile Include="SimpleOption.cs" />
     <Compile Include="SimpleOptionTest.cs" />

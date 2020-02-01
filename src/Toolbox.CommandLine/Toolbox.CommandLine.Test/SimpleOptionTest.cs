@@ -45,7 +45,7 @@ namespace Toolbox.CommandLine.Test
             var result = cut.Parse(args);
 
             Assert.AreEqual(Result.Succeeded, result.Result);
-            Assert.AreEqual(typeof(SimpleOption), result.Option.GetType());
+            Assert.IsInstanceOfType(result.Option, typeof(SimpleOption));
             Assert.AreEqual(filename, ((SimpleOption)result.Option).FileName);
         }
 
@@ -59,8 +59,20 @@ namespace Toolbox.CommandLine.Test
             var result = cut.Parse(args);
 
             Assert.AreEqual(Result.Succeeded, result.Result);
-            Assert.AreEqual(typeof(SimpleOption), result.Option.GetType());
+            Assert.IsInstanceOfType(result.Option, typeof(SimpleOption));
             Assert.AreEqual(SimpleOption.DefaultFileName, ((SimpleOption)result.Option).FileName);
+        }
+
+        [TestMethod]
+        public void RequestHelp()
+        {
+            var cut = Parser.Create<SimpleOption>();
+
+            var args = new string[] { "-?" };
+
+            var result = cut.Parse(args);
+
+            Assert.AreEqual(Result.RequestHelp, result.Result);
         }
     }
 }
