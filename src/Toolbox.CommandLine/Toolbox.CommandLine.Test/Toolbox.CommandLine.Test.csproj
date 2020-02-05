@@ -49,6 +49,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonTypesOption.cs" />
+    <Compile Include="CommonTypesTest.cs" />
     <Compile Include="VerbListOption.cs" />
     <Compile Include="VerbTest.cs" />
     <Compile Include="VerbAddOption.cs" />

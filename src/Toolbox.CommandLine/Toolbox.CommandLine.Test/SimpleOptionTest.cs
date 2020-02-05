@@ -64,7 +64,7 @@ namespace Toolbox.CommandLine.Test
         }
 
         [TestMethod]
-        public void RequestHelp()
+        public void RequestHelpQuestionMark()
         {
             var cut = Parser.Create<SimpleOption>();
 
@@ -73,6 +73,43 @@ namespace Toolbox.CommandLine.Test
             var result = cut.Parse(args);
 
             Assert.AreEqual(Result.RequestHelp, result.Result);
+        }
+
+        [TestMethod]
+        public void RequestHelpByH()
+        {
+            var cut = Parser.Create<SimpleOption>();
+
+            var args = new string[] { "-h" };
+
+            var result = cut.Parse(args);
+
+            Assert.AreEqual(Result.RequestHelp, result.Result);
+        }
+
+        [TestMethod]
+        public void RequestHelpByHelp()
+        {
+            var cut = Parser.Create<SimpleOption>();
+
+            var args = new string[] { "-help" };
+
+            var result = cut.Parse(args);
+
+            Assert.AreEqual(Result.RequestHelp, result.Result);
+        }
+
+        [TestMethod]
+        public void RequestHelpNoHelp()
+        {
+            var cut = Parser.Create<SimpleOption>();
+            cut.HelpOptions.Clear();
+
+            var args = new string[] { "-?" };
+
+            var result = cut.Parse(args);
+
+            Assert.AreEqual(Result.UnknownOption, result.Result);
         }
     }
 }

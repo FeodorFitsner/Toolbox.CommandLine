@@ -27,6 +27,11 @@ namespace Toolbox.CommandLine
 
         internal void SetValue(object option, object value)
         {
+            if (!Property.PropertyType.IsAssignableFrom(value.GetType()))
+            {
+                value = Convert.ChangeType(value, Property.PropertyType);
+            }                
+
             Property.SetValue(option, value);
         }
 
