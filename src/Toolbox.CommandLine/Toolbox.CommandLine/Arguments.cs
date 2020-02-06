@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Toolbox.CommandLine
 {
@@ -19,10 +17,15 @@ namespace Toolbox.CommandLine
                             .Where(p => p.GetCustomAttribute<OptionAttribute>() != null && p.CanWrite);
 
             Options = properties.Select(p => new Option(p)).ToArray();
-
             if (Options.GroupBy(o => o.Name).Any(g => g.Count() > 1))
             {
                 throw new ArgumentException($"Duplicate options on type {type.FullName}.", nameof(type));
+            }
+
+            PositionOptions = Options.Where(o => o.Position.HasValue).OrderBy(o => o.Position).ToArray();
+            if (PositionOptions.Any(p => p.Position != Array.IndexOf(PositionOptions, p)))
+            {
+                throw new ArgumentException($"Bad positions for options on type {type.FullName}.", nameof(type));
             }
         }
 
@@ -30,6 +33,7 @@ namespace Toolbox.CommandLine
         public Type Type { get; }
         public string Verb { get; }
         public Option[] Options { get; }
+        public Option[] PositionOptions { get; }
 
         internal void Parse(ParseResult result, Queue<string> queue)
         {
@@ -42,12 +46,11 @@ namespace Toolbox.CommandLine
             while (queue.Count>0)
             {
                 var arg = queue.Dequeue();
-                count++;
-
+                
                 if (arg == "")
-                    result.SetResult(Result.MissingOption, $"option exspected on [{count}].");
-                else if (arg[0] != Parser.OptionChar)
-                    result.SetResult(Result.MissingOption, $"option exspected on [{count}] '{arg}'.");
+                    result.SetResult(Result.MissingOption, $"option exspected at [{count}].");
+                else if (arg[0]!=Parser.OptionChar && count>=PositionOptions.Length)
+                    result.SetResult(Result.MissingOption, $"option exspected at [{count}] '{arg}'.");
                 else
                 {
                     if (Parser.IsHelp(arg))
@@ -56,11 +59,24 @@ namespace Toolbox.CommandLine
                     }
                     else
                     {
-                        var name = arg.Substring(1);
-                        var option = Options.FirstOrDefault(o => o.Name == name);
+                        Option option;
+                        string name;
+                        string value = null;
+
+                        if (arg[0] != Parser.OptionChar)
+                        {
+                            option = PositionOptions[count];
+                            name = option.Name;
+                            value = arg;
+                        }
+                        else
+                        {
+                            name = arg.Substring(1);
+                            option = Options.FirstOrDefault(o => o.Name == name);
+                        }
 
                         if (option == null)
-                            result.SetResult(Result.UnknownOption, $"option not known on [{count}] '{arg}'.");
+                            result.SetResult(Result.UnknownOption, $"option not known at [{count}] '{arg}'.");
                         else
                         {
                             counts[option.Name]++;
@@ -75,7 +91,9 @@ namespace Toolbox.CommandLine
                                     result.SetResult(Result.MissingValue, $"option needs value after [{count}] '{arg}'.");
                                 else
                                 {
-                                    var value = queue.Dequeue();
+                                    if (value == null)
+                                        value = queue.Dequeue();
+
                                     try
                                     {
                                         option.SetValue(result.Option, value);
@@ -89,6 +107,7 @@ namespace Toolbox.CommandLine
                         }
                     }
                 }
+                count++;
             }
 
             if (result.Result == Result.Succeeded)

@@ -2,6 +2,10 @@
 
 namespace Toolbox.CommandLine
 {
+    /// <summary>
+    /// Marks a class as options for a verb.
+    /// </summary>
+    /// <see cref="OptionAttribute"/>"/>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public sealed class VerbAttribute : Attribute
     {

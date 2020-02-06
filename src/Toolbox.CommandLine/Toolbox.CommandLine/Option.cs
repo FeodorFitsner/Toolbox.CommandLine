@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Toolbox.CommandLine
 {
@@ -20,11 +16,13 @@ namespace Toolbox.CommandLine
             Property = property;
             DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>();
             Mandatory = property.GetCustomAttribute<MandatoryAttribute>() != null;
+            Position = property.GetCustomAttribute<PositionAttribute>()?.Position;
         }
 
         public string Name { get; }
         public PropertyInfo Property { get; }
         public DefaultValueAttribute DefaultValue { get; }
+        public int? Position { get; }
 
         public bool Mandatory { get; }
 
