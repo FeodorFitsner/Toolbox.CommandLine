@@ -33,6 +33,8 @@ namespace Toolbox.CommandLine
 
         internal void Parse(ParseResult result, Queue<string> queue)
         {
+            var mandadory = new HashSet<string>(Options.Where(o => o.Mandatory).Select(o => o.Name));
+
             result.Option = Activator.CreateInstance(Type);
             Options.ToList().ForEach(o => o.SetDefault(result.Option));
 
@@ -47,9 +49,12 @@ namespace Toolbox.CommandLine
                 else if (arg[0] != Parser.OptionChar)
                     result.SetResult(Result.MissingOption, $"option exspected on [{count}] '{arg}'.");
                 else
-                {                    
+                {
                     if (Parser.IsHelp(arg))
+                    {
                         result.SetResult(Result.RequestHelp);
+                        mandadory.Clear();
+                    }
                     else
                     {
                         var name = arg.Substring(1);
@@ -83,6 +88,11 @@ namespace Toolbox.CommandLine
                         }
                     }
                 }
+            }
+
+            if (mandadory.Count > 0)
+            {
+                result.SetResult(Result.MandatoryOption, $"mandatory options: {string.Join(", ", mandadory)}");
             }
         }
     }

@@ -26,5 +26,9 @@ namespace Toolbox.CommandLine.Test
         [Option("now")]
         public DateTime Now { get; set; }
 
+        [Option("nullnumber")]
+        public int? NullNumber { get; set; }
+
+
     }
 }

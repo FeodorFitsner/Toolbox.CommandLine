@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Toolbox.CommandLine
 {
+    [DebuggerDisplay("{Name,nq} -> {Property.PropertyName,nq}")]
     public class Option
     {
         public Option(PropertyInfo property)
@@ -17,11 +19,14 @@ namespace Toolbox.CommandLine
             Name = optionAttribute.Name;
             Property = property;
             DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>();
+            Mandatory = property.GetCustomAttribute<MandatoryAttribute>() != null;
         }
 
         public string Name { get; }
         public PropertyInfo Property { get; }
         public DefaultValueAttribute DefaultValue { get; }
+
+        public bool Mandatory { get; }
 
         public bool IsSwitch => Property.PropertyType == typeof(bool);
 
@@ -29,8 +34,20 @@ namespace Toolbox.CommandLine
         {
             if (!Property.PropertyType.IsAssignableFrom(value.GetType()))
             {
-                value = Convert.ChangeType(value, Property.PropertyType);
-            }                
+                if (Property.PropertyType.IsGenericType)
+                {
+                    var genericType = Property.PropertyType.GetGenericTypeDefinition();
+                    if (genericType == typeof(Nullable<>))
+                    {
+                        value = Convert.ChangeType(value, Property.PropertyType.GetGenericArguments()[0]);
+                    }
+                }
+                else
+                {
+                    value = Convert.ChangeType(value, Property.PropertyType);
+                }
+            }   
+            
 
             Property.SetValue(option, value);
         }

@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="CommonTypesOption.cs" />
     <Compile Include="CommonTypesTest.cs" />
+    <Compile Include="MandatoryOption.cs" />
+    <Compile Include="MandatoryOptionTest.cs" />
     <Compile Include="VerbListOption.cs" />
     <Compile Include="VerbTest.cs" />
     <Compile Include="VerbAddOption.cs" />

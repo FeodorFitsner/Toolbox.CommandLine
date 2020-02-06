@@ -22,6 +22,7 @@ namespace Toolbox.CommandLine.Test
                 "-text", text,
                 "-switch",
                 "-number", number.ToString(),
+                "-nullnumber", number.ToString(),
                 "-decimal", dec.ToString(),
                 "-date", date.ToString("d"),
                 "-now", now.ToString("G")
@@ -37,6 +38,7 @@ namespace Toolbox.CommandLine.Test
             Assert.AreEqual(text, option.Text);
             Assert.IsTrue(option.Switch);
             Assert.AreEqual(number, option.Number);
+            Assert.AreEqual(number, option.NullNumber);
             Assert.AreEqual(dec, option.Decimal);
             Assert.AreEqual(date, option.Date);
             Assert.AreEqual(now, option.Now);

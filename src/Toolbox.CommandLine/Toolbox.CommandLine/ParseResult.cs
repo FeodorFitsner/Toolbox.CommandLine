@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Toolbox.CommandLine
+﻿namespace Toolbox.CommandLine
 {
     public class ParseResult
     {
@@ -27,6 +21,7 @@ namespace Toolbox.CommandLine
         UnknownOption,
         MissingValue,
         BadValue,
-        RequestHelp    
+        RequestHelp,
+        MandatoryOption
     }
 }
