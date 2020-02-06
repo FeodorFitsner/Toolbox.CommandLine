@@ -30,32 +30,53 @@ namespace Toolbox.CommandLine
 
         public bool IsSwitch => Property.PropertyType == typeof(bool);
 
-        internal void SetValue(object option, object value)
+        internal void SetValue(object option, string value)
         {
-            if (!Property.PropertyType.IsAssignableFrom(value.GetType()))
+            object optionValue;
+            if (Property.PropertyType.IsArray)
             {
-                if (Property.PropertyType.IsGenericType)
+                var elementType = Property.PropertyType.GetElementType();
+                var parts = value.Split(',');
+
+                var array = Array.CreateInstance(elementType, parts.Length);
+                for (var i = 0; i < parts.Length; i++)
                 {
-                    var genericType = Property.PropertyType.GetGenericTypeDefinition();
-                    if (genericType == typeof(Nullable<>))
-                    {
-                        value = Convert.ChangeType(value, Property.PropertyType.GetGenericArguments()[0]);
-                    }
+                    array.SetValue(ConvertTo(elementType, parts[i]), i);
                 }
-                else
-                {
-                    value = Convert.ChangeType(value, Property.PropertyType);
-                }
+                optionValue = array;
+            }
+            else 
+            {
+                optionValue = ConvertTo(Property.PropertyType, value);
             }   
             
+            Property.SetValue(option, optionValue);
+        }
 
-            Property.SetValue(option, value);
+        private object ConvertTo(Type type, string value)
+        {
+            if (type.IsAssignableFrom(typeof(string))) return value;
+
+            if (Property.PropertyType.IsGenericType)
+            {
+                var genericType = Property.PropertyType.GetGenericTypeDefinition();
+                if (genericType == typeof(Nullable<>))
+                {
+                    return Convert.ChangeType(value, Property.PropertyType.GetGenericArguments()[0]);
+                }
+            }
+            return Convert.ChangeType(value, Property.PropertyType);
         }
 
         internal void SetDefault(object option)
         {
             if (DefaultValue != null)
                 Property.SetValue(option, DefaultValue.Value);
+        }
+
+        internal void SetSwitch(object option)
+        {
+            Property.SetValue(option, true);
         }
     }
 }

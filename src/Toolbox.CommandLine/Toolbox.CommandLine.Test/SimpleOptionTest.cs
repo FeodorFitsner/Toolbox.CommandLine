@@ -50,6 +50,25 @@ namespace Toolbox.CommandLine.Test
         }
 
         [TestMethod]
+        public void DuplicateSimpleOption()
+        {
+            var cut = Parser.Create<SimpleOption>();
+
+            const string filename = "myText.txt";
+
+            var args = new[] 
+            { 
+                "-f", filename,
+                "-f", filename
+            };
+
+            var result = cut.Parse(args);
+
+            Assert.AreEqual(Result.DuplicateOption, result.Result);
+            Assert.IsInstanceOfType(result.Option, typeof(SimpleOption));            
+        }
+
+        [TestMethod]
         public void ParseEmptyArgs()
         {
             var cut = Parser.Create<SimpleOption>();

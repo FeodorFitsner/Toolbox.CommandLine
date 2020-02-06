@@ -33,7 +33,7 @@ namespace Toolbox.CommandLine
 
         internal void Parse(ParseResult result, Queue<string> queue)
         {
-            var mandadory = new HashSet<string>(Options.Where(o => o.Mandatory).Select(o => o.Name));
+            var counts = Options.ToDictionary(o => o.Name, o => 0);
 
             result.Option = Activator.CreateInstance(Type);
             Options.ToList().ForEach(o => o.SetDefault(result.Option));
@@ -53,7 +53,6 @@ namespace Toolbox.CommandLine
                     if (Parser.IsHelp(arg))
                     {
                         result.SetResult(Result.RequestHelp);
-                        mandadory.Clear();
                     }
                     else
                     {
@@ -64,9 +63,11 @@ namespace Toolbox.CommandLine
                             result.SetResult(Result.UnknownOption, $"option not known on [{count}] '{arg}'.");
                         else
                         {
+                            counts[option.Name]++;
+
                             if (option.IsSwitch)
                             {
-                                option.SetValue(result.Option, true);
+                                option.SetSwitch(result.Option);
                             }
                             else
                             {
@@ -90,9 +91,21 @@ namespace Toolbox.CommandLine
                 }
             }
 
-            if (mandadory.Count > 0)
+            if (result.Result == Result.Succeeded)
             {
-                result.SetResult(Result.MandatoryOption, $"mandatory options: {string.Join(", ", mandadory)}");
+                var mandatory = Options.Where(o => o.Mandatory && counts[o.Name] == 0);
+                if (mandatory.Any())
+                {
+                    result.SetResult(Result.MandatoryOption, $"mandatory options: {string.Join(", ", mandatory.Select(o => o.Name))}");
+                }
+                else
+                {
+                    var duplicate = Options.Where(o => counts[o.Name]>1);
+                    if (duplicate.Any())
+                    {
+                        result.SetResult(Result.DuplicateOption, $"duplicate options: {string.Join(", ", duplicate.Select(o => o.Name))}");
+                    }
+                }
             }
         }
     }

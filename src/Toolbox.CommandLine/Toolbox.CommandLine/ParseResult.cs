@@ -22,6 +22,7 @@
         MissingValue,
         BadValue,
         RequestHelp,
-        MandatoryOption
+        MandatoryOption,
+        DuplicateOption,
     }
 }

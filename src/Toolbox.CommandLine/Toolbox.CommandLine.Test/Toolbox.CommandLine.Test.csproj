@@ -49,6 +49,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionOption.cs" />
+    <Compile Include="CollectionOptionTest.cs" />
     <Compile Include="CommonTypesOption.cs" />
     <Compile Include="CommonTypesTest.cs" />
     <Compile Include="MandatoryOption.cs" />
