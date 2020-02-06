@@ -49,6 +49,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BadPositionOptionMissing.cs" />
+    <Compile Include="BadPositionOptionNegative.cs" />
+    <Compile Include="BadPositionOptionDuplicate.cs" />
+    <Compile Include="BadPositionTest.cs" />
     <Compile Include="CollectionOption.cs" />
     <Compile Include="CollectionOptionTest.cs" />
     <Compile Include="CommonTypesOption.cs" />
