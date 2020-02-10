@@ -15,7 +15,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.MandatoryOption, result.Result);
+            Assert.AreEqual(State.MandatoryOption, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(MandatoryOption));
 
             var option = (MandatoryOption)result.Option;

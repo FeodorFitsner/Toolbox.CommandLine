@@ -17,7 +17,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.Succeeded, result.Result);
+            Assert.AreEqual(State.Succeeded, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(VerbAddOption));
             Assert.AreEqual(name, ((VerbAddOption)result.Option).Name);
 
@@ -32,7 +32,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.Succeeded, result.Result);
+            Assert.AreEqual(State.Succeeded, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(VerbListOption));
             Assert.IsTrue(((VerbListOption)result.Option).Active);
         }
@@ -46,7 +46,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.RequestHelp, result.Result);
+            Assert.AreEqual(State.RequestHelp, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(VerbAddOption));
         }
 
@@ -59,7 +59,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.RequestHelp, result.Result);
+            Assert.AreEqual(State.RequestHelp, result.State);
             Assert.IsNull(result.Option);
         }
     }

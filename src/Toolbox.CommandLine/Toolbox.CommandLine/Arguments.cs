@@ -48,14 +48,14 @@ namespace Toolbox.CommandLine
                 var arg = queue.Dequeue();
                 
                 if (arg == "")
-                    result.SetResult(Result.MissingOption, $"option exspected at [{count}].");
+                    result.SetState(State.MissingOption, $"option exspected at [{count}].");
                 else if (arg[0]!=Parser.OptionChar && count>=PositionOptions.Length)
-                    result.SetResult(Result.MissingOption, $"option exspected at [{count}] '{arg}'.");
+                    result.SetState(State.MissingOption, $"option exspected at [{count}] '{arg}'.");
                 else
                 {
                     if (Parser.IsHelp(arg))
                     {
-                        result.SetResult(Result.RequestHelp);
+                        result.SetState(State.RequestHelp);
                     }
                     else
                     {
@@ -76,7 +76,7 @@ namespace Toolbox.CommandLine
                         }
 
                         if (option == null)
-                            result.SetResult(Result.UnknownOption, $"option not known at [{count}] '{arg}'.");
+                            result.SetState(State.UnknownOption, $"option not known at [{count}] '{arg}'.");
                         else
                         {
                             counts[option.Name]++;
@@ -88,7 +88,7 @@ namespace Toolbox.CommandLine
                             else
                             {
                                 if (queue.Count == 0)
-                                    result.SetResult(Result.MissingValue, $"option needs value after [{count}] '{arg}'.");
+                                    result.SetState(State.MissingValue, $"option needs value after [{count}] '{arg}'.");
                                 else
                                 {
                                     if (value == null)
@@ -100,7 +100,7 @@ namespace Toolbox.CommandLine
                                     }
                                     catch (Exception exception)
                                     {
-                                        result.SetResult(Result.BadValue, $"bad option value at [{count}] '{arg}'='{value}' ({exception.Message}).");
+                                        result.SetState(State.BadValue, $"bad option value at [{count}] '{arg}'='{value}' ({exception.Message}).");
                                     }
                                 }
                             }
@@ -110,19 +110,19 @@ namespace Toolbox.CommandLine
                 count++;
             }
 
-            if (result.Result == Result.Succeeded)
+            if (result.State== State.Succeeded)
             {
                 var mandatory = Options.Where(o => o.Mandatory && counts[o.Name] == 0);
                 if (mandatory.Any())
                 {
-                    result.SetResult(Result.MandatoryOption, $"mandatory options: {string.Join(", ", mandatory.Select(o => o.Name))}");
+                    result.SetState(State.MandatoryOption, $"mandatory options: {string.Join(", ", mandatory.Select(o => o.Name))}");
                 }
                 else
                 {
                     var duplicate = Options.Where(o => counts[o.Name]>1);
                     if (duplicate.Any())
                     {
-                        result.SetResult(Result.DuplicateOption, $"duplicate options: {string.Join(", ", duplicate.Select(o => o.Name))}");
+                        result.SetState(State.DuplicateOption, $"duplicate options: {string.Join(", ", duplicate.Select(o => o.Name))}");
                     }
                 }
             }

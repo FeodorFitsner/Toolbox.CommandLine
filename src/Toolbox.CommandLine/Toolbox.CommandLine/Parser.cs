@@ -72,29 +72,29 @@ namespace Toolbox.CommandLine
             {
                 if (queue.Count==0)
                 {
-                    result.SetResult(Result.MissingVerb);
+                    result.SetState(State.MissingVerb);
                 }
                 else
                 {
                     var verb = queue.Dequeue();
 
                     if (verb=="")
-                        result.SetResult(Result.MissingVerb, "empty verb");
+                        result.SetState(State.MissingVerb, "empty verb");
                     else if (IsHelp(verb))
                     {
-                        result.SetResult(Result.RequestHelp);
+                        result.SetState(State.RequestHelp);
                     }
                     else
                     {
 
                         arguments = Arguments.FirstOrDefault(a => a.Verb == verb);
                         if (arguments == null)
-                            result.SetResult(Result.MissingVerb, $"verb '{args[0]}' not defined");
+                            result.SetState(State.MissingVerb, $"verb '{args[0]}' not defined");
                     }
                 }                    
             }
 
-            if (result.Result == Result.Succeeded)
+            if (result.State== State.Succeeded)
             {
                 arguments.Parse(result, queue);
             }

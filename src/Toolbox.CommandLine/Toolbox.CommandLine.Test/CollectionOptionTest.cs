@@ -25,7 +25,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.Succeeded, result.Result);
+            Assert.AreEqual(State.Succeeded, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(CollectionOption));
 
             var option = (CollectionOption)result.Option;
@@ -46,7 +46,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.Succeeded, result.Result);
+            Assert.AreEqual(State.Succeeded, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(CollectionOption));
 
             var option = (CollectionOption)result.Option;

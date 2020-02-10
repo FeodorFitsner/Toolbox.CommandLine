@@ -44,7 +44,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.Succeeded, result.Result);
+            Assert.AreEqual(State.Succeeded, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(SimpleOption));
             Assert.AreEqual(filename, ((SimpleOption)result.Option).FileName);
         }
@@ -64,7 +64,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.DuplicateOption, result.Result);
+            Assert.AreEqual(State.DuplicateOption, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(SimpleOption));            
         }
 
@@ -77,7 +77,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.Succeeded, result.Result);
+            Assert.AreEqual(State.Succeeded, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(SimpleOption));
             Assert.AreEqual(SimpleOption.DefaultFileName, ((SimpleOption)result.Option).FileName);
         }
@@ -91,7 +91,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.RequestHelp, result.Result);
+            Assert.AreEqual(State.RequestHelp, result.State);
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.RequestHelp, result.Result);
+            Assert.AreEqual(State.RequestHelp, result.State);
         }
 
         [TestMethod]
@@ -115,7 +115,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.RequestHelp, result.Result);
+            Assert.AreEqual(State.RequestHelp, result.State);
         }
 
         [TestMethod]
@@ -128,7 +128,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.UnknownOption, result.Result);
+            Assert.AreEqual(State.UnknownOption, result.State);
         }
     }
 }

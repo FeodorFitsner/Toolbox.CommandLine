@@ -30,7 +30,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.Succeeded, result.Result);
+            Assert.AreEqual(State.Succeeded, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(CommonTypesOption));
 
             var option = (CommonTypesOption)result.Option;
@@ -66,7 +66,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.Succeeded, result.Result, result.Text);
+            Assert.AreEqual(State.Succeeded, result.State, result.Text);
             Assert.IsInstanceOfType(result.Option, typeof(CommonTypesOption));
 
             var option = (CommonTypesOption)result.Option;
@@ -102,7 +102,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.Succeeded, result.Result, result.Text);
+            Assert.AreEqual(State.Succeeded, result.State, result.Text);
             Assert.IsInstanceOfType(result.Option, typeof(CommonTypesOption));
 
             var option = (CommonTypesOption)result.Option;
@@ -138,7 +138,7 @@ namespace Toolbox.CommandLine.Test
 
             var result = cut.Parse(args);
 
-            Assert.AreEqual(Result.MissingOption, result.Result, result.Text);
+            Assert.AreEqual(State.MissingOption, result.State, result.Text);
             Assert.IsInstanceOfType(result.Option, typeof(CommonTypesOption));
         }
    }
