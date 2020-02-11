@@ -5,10 +5,13 @@ using System.Reflection;
 
 namespace Toolbox.CommandLine
 {
+    /// <summary>
+    /// Describes a single argument of the options
+    /// </summary>
     [DebuggerDisplay("{Name,nq} -> {Property.PropertyName,nq}")]
     public class Option
     {
-        public Option(PropertyInfo property)
+        internal Option(PropertyInfo property)
         {
             var optionAttribute = property.GetCustomAttribute<OptionAttribute>();
 
@@ -19,6 +22,9 @@ namespace Toolbox.CommandLine
             Position = property.GetCustomAttribute<PositionAttribute>()?.Position;
         }
 
+        /// <summary>
+        /// Gets the name of the option
+        /// </summary>
         public string Name { get; }
         public PropertyInfo Property { get; }
         public DefaultValueAttribute DefaultValue { get; }
@@ -75,6 +81,24 @@ namespace Toolbox.CommandLine
         internal void SetSwitch(object option)
         {
             Property.SetValue(option, true);
+        }
+
+        internal string GetUsage(char optionChar)
+        {
+            var typeText = $"<{Property.PropertyType.Name}>";
+            var nameText = $"{optionChar}{Name}";
+            if (Position.HasValue)
+                nameText = $"[{nameText}]";
+
+            var text = $"{nameText} {typeText}";
+
+            if (IsSwitch)
+                text = nameText;
+
+            if (!Mandatory)
+                text = $"[{text}]";
+
+            return text;
         }
     }
 }

@@ -20,7 +20,6 @@ namespace Toolbox.CommandLine.Test
             Assert.AreEqual(State.Succeeded, result.State);
             Assert.IsInstanceOfType(result.Option, typeof(VerbAddOption));
             Assert.AreEqual(name, ((VerbAddOption)result.Option).Name);
-
         }
 
         [TestMethod]

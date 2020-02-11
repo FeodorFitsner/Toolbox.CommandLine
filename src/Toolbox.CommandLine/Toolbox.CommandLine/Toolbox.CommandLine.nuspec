@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Toolbox.CommandLine</id>
+    <version>$version$</version>
+    <title>Toolbox.CommandLine</title>
+    <authors>Calteo</authors>
+    <owners>Calteo</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/Calteo/Toolbox.CommandLine</projectUrl>
+    <iconUrl>https://github.com/Calteo/Toolbox.CommandLine/src/app.ico</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>parses commandline arguments to objects</description>
+    <releaseNotes>First beta</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>commandline arguments parser</tags>
+  </metadata>
+</package>

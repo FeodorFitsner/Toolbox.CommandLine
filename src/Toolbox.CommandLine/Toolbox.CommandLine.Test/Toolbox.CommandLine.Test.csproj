@@ -58,6 +58,8 @@
     <Compile Include="CommonTypesOption.cs" />
     <Compile Include="CommonTypesTest.cs" />
     <Compile Include="FluentResultTest.cs" />
+    <Compile Include="HelpOption.cs" />
+    <Compile Include="HelpTest.cs" />
     <Compile Include="MandatoryOption.cs" />
     <Compile Include="MandatoryOptionTest.cs" />
     <Compile Include="VerbListOption.cs" />

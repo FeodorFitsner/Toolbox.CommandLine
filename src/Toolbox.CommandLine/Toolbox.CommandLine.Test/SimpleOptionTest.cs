@@ -25,12 +25,12 @@ namespace Toolbox.CommandLine.Test
         {
             var cut = new Parser(typeof(SimpleOption));
 
-            Assert.AreEqual(1, cut.Arguments.Length);
-            Assert.AreEqual(typeof(SimpleOption), cut.Arguments[0].Type);
-            Assert.IsNull(cut.Arguments[0].Verb);
-            Assert.AreEqual(1, cut.Arguments[0].Options.Length);
-            Assert.AreEqual("f", cut.Arguments[0].Options[0].Name);
-            Assert.AreEqual("FileName", cut.Arguments[0].Options[0].Property.Name);
+            Assert.AreEqual(1, cut.OptionTypes.Length);
+            Assert.AreEqual(typeof(SimpleOption), cut.OptionTypes[0].Type);
+            Assert.IsNull(cut.OptionTypes[0].Verb);
+            Assert.AreEqual(1, cut.OptionTypes[0].Options.Length);
+            Assert.AreEqual("f", cut.OptionTypes[0].Options[0].Name);
+            Assert.AreEqual("FileName", cut.OptionTypes[0].Options[0].Property.Name);
         }
 
         [TestMethod]

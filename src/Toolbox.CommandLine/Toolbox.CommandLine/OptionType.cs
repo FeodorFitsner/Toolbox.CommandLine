@@ -5,9 +5,17 @@ using System.Reflection;
 
 namespace Toolbox.CommandLine
 {
-    public class Arguments
+    /// <summary>
+    /// Collection of options for a given type.
+    /// </summary>
+    public class OptionType
     {
-        public Arguments(Parser parser, Type type)
+        /// <summary>
+        /// Initialize a new instance of <see cref="CommandLineOptions"/> class.
+        /// </summary>
+        /// <param name="parser">The parser creating these arguments.</param>
+        /// <param name="type">The type of the options</param>
+        internal OptionType(Parser parser, Type type)
         {
             Parser = parser;
             Type = type;
@@ -29,10 +37,30 @@ namespace Toolbox.CommandLine
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="Parser"/> object.
+        /// </summary>
         public Parser Parser { get; }
+        /// <summary>
+        /// Get the <see cref="Type"/> of the options.
+        /// </summary>
         public Type Type { get; }
+        /// <summary>
+        /// Gets the verb of these options.
+        /// </summary>
+        /// <remarks>
+        /// Will be <c>null</c> if only a single opton class is used for parsing.
+        /// </remarks>
+        /// <see cref="VerbAttribute"/>
         public string Verb { get; }
+        /// <summary>
+        /// Get the list of options.
+        /// </summary>
         public Option[] Options { get; }
+        /// <summary>
+        /// Get the list of options with fixed positions.
+        /// </summary>
+        /// <see cref="PositionAttribute"/>
         public Option[] PositionOptions { get; }
 
         internal void Parse(ParseResult result, Queue<string> queue)
@@ -126,6 +154,23 @@ namespace Toolbox.CommandLine
                     }
                 }
             }
+        }
+
+        internal string GetHelpText(int width)
+        {
+            var collector = new StringCollector(width);
+
+            collector.AppendLine("${name}");
+
+            var options = Options.Select(o => o.GetUsage(Parser.OptionChar));
+
+            collector.AppendLine("SYNTAX");
+            collector.Indent = 2;
+            foreach (var option in options)
+            {
+                collector.Append(option);
+            }
+            return collector.ToString();
         }
     }
 }

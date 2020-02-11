@@ -9,6 +9,10 @@ namespace Toolbox.CommandLine
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
     public sealed class PositionAttribute : Attribute
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PositionAttribute"/>
+        /// </summary>
+        /// <param name="position">Index of the option (starts at <c>0</c>)</param>
         public PositionAttribute(int position)
         {
             if (position < 0)
@@ -17,6 +21,9 @@ namespace Toolbox.CommandLine
             Position = position;
         }
 
+        /// <summary>
+        /// Gets the position
+        /// </summary>
         public int Position { get;  }
     }
 }
