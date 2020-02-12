@@ -8,14 +8,14 @@
     <owners>Calteo</owners>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/Calteo/Toolbox.CommandLine</projectUrl>
-    <icon>src/app.ico</icon>
+    <icon>images\app.png</icon>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>parses commandline arguments to objects</description>
     <releaseNotes>First beta</releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>commandline arguments parser</tags>
-    <dependencies>
-      <group targetFramework=".NETFramework4.8" />
-    </dependencies>
   </metadata>
+  <files>
+    <file src="app.png" target="images\" />
+  </files>
 </package>

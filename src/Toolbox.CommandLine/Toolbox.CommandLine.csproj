@@ -60,5 +60,8 @@
   <ItemGroup>
     <None Include="Toolbox.CommandLine.nuspec" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
