@@ -26,12 +26,27 @@ namespace Toolbox.CommandLine
         /// Gets the name of the option
         /// </summary>
         public string Name { get; }
+        /// <summary>
+        /// Get the property associated with this option
+        /// </summary>
         public PropertyInfo Property { get; }
+        /// <summary>
+        /// Get the default value if one is present.
+        /// </summary>
         public DefaultValueAttribute DefaultValue { get; }
+        /// <summary>
+        /// Get the postion if one is present.
+        /// </summary>
+        /// <see cref="PositionAttribute"/>
         public int? Position { get; }
-
+        /// <summary>
+        /// Get if the option is mandatory
+        /// </summary>
+        /// <see cref="MandatoryAttribute"/>
         public bool Mandatory { get; }
-
+        /// <summary>
+        /// Is this option a boolean switch that takes no values.
+        /// </summary>        
         public bool IsSwitch => Property.PropertyType == typeof(bool);
 
         internal void SetValue(object option, string value)

@@ -10,7 +10,7 @@ namespace Toolbox.CommandLine
     public class Parser
     {
         /// <summary>
-        /// Initialize a new <see cref="Parser"/> instance.
+        /// Initialize a new instance of the <see cref="Parser"/> class.
         /// </summary>
         /// <param name="types">The types of the option objects.</param>
         /// <remarks>

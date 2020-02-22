@@ -10,9 +10,10 @@ namespace Toolbox.CommandLine
     public sealed class PositionAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PositionAttribute"/>
+        /// Initializes a new instance of the <see cref="PositionAttribute"/> class.
         /// </summary>
         /// <param name="position">Index of the option (starts at <c>0</c>)</param>
+        /// <remarks>Only works if also the <see cref="OptionAttribute"/> is given.</remarks>
         public PositionAttribute(int position)
         {
             if (position < 0)

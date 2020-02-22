@@ -11,7 +11,7 @@ namespace Toolbox.CommandLine
     public class OptionType
     {
         /// <summary>
-        /// Initialize a new instance of <see cref="CommandLineOptions"/> class.
+        /// Initialize a new instance of the <see cref="OptionType"/> class.
         /// </summary>
         /// <param name="parser">The parser creating these arguments.</param>
         /// <param name="type">The type of the options</param>
