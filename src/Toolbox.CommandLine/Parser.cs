@@ -24,20 +24,24 @@ namespace Toolbox.CommandLine
             if (types.Length == 0)
                 throw new ArgumentException("No types specified.", nameof(types));
 
-            OptionTypes = types.Select(t => new OptionType(this, t)).ToArray();
-            if (OptionTypes.Length > 1)
+            OptionTypes = types.Select(t => new OptionType(this, t)).ToDictionary(ot => ot.Verb);
+            if (OptionTypes.Count > 1)
             {
-                var noVerbs = OptionTypes.Where(a => a.Verb == null);
-                if (noVerbs.Any())
-                {
-                    throw new ArgumentException($"no verb on types: {string.Join(", ", noVerbs.Select(a => a.Type.FullName))}");
-                }
-
-                if (OptionTypes.GroupBy(a => a.Verb).Any(g => g.Count()>1))
-                {
-                    throw new ArgumentException($"duplicate verbs on parsing types.", nameof(types));
-                }
+                if (OptionTypes.ContainsKey(""))
+                    throw new ArgumentException("Empty verb on option type.");
             }
+        }
+
+        public Parser(IDictionary<string,Type> verbAndTypes)
+        {
+            if (verbAndTypes == null)
+                throw new ArgumentNullException(nameof(verbAndTypes));
+            if (verbAndTypes.Count < 1)
+                throw new ArgumentException("Minimum of two verbs needed.", nameof(verbAndTypes));
+            if (verbAndTypes.ContainsKey("") || verbAndTypes.ContainsKey(null))
+                throw new ArgumentException("Empty verb not permitted.", nameof(verbAndTypes));
+
+            OptionTypes = verbAndTypes.ToDictionary(kvp => kvp.Key, kvp => new OptionType(this, kvp.Value));
         }
 
         /// <summary>
@@ -66,7 +70,7 @@ namespace Toolbox.CommandLine
         /// <summary>
         /// Get the list of possible options.
         /// </summary>
-        public OptionType[] OptionTypes { get; }
+        public IReadOnlyDictionary<string, OptionType> OptionTypes { get; }
         /// <summary>
         /// Gets or sets the character begining an option.
         /// </summary>
@@ -109,8 +113,8 @@ namespace Toolbox.CommandLine
 
             var result = new ParseResult();
 
-            var optionType = OptionTypes[0];
-            if (OptionTypes.Length>1)
+            var optionType = OptionTypes.Values.First();
+            if (OptionTypes.Count>1)
             {
                 if (queue.Count==0)
                 {
@@ -130,11 +134,10 @@ namespace Toolbox.CommandLine
                     }
                     else
                     {
-                        optionType = OptionTypes.FirstOrDefault(a => a.Verb == verb);
-                        if (optionType == null)
+                        if (!OptionTypes.TryGetValue(verb, out optionType))
                             result.SetState(State.MissingVerb, $"verb '{args[0]}' not defined");
-
-                        result.Verb = verb;
+                        else
+                            result.Verb = verb;
                     }
                 }                    
             }
@@ -158,16 +161,15 @@ namespace Toolbox.CommandLine
         /// </remarks>
         public string GetHelpText(string verb = null, int width = 80)
         {
-            if (OptionTypes.Length == 1 && verb != null)
+            if (OptionTypes.Count == 1 && verb != null)
                 throw new ArgumentException("no verb allowed on single option", nameof(verb));
-            if (OptionTypes.Length > 1 && verb == null)
+            if (OptionTypes.Count > 1 && (verb == null || verb == ""))
                 throw new ArgumentNullException("verb mandatory on multiple options", nameof(verb));
 
-            var optionType = OptionTypes[0];
+            var optionType = OptionTypes.Values.First();
             if (verb != null)
             {
-                optionType = OptionTypes.FirstOrDefault(a => a.Verb == verb);
-                if (optionType == null)
+                if (!OptionTypes.TryGetValue(verb, out optionType))
                     throw new ArgumentOutOfRangeException("verb '{verb}' not found", nameof(verb));
             }
 

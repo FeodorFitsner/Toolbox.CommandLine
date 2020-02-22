@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -19,7 +20,7 @@ namespace Toolbox.CommandLine
         {
             Parser = parser;
             Type = type;
-            Verb = type.GetCustomAttribute<VerbAttribute>()?.Verb;
+            Verb = type.GetCustomAttribute<VerbAttribute>()?.Verb ?? "";
 
             var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                             .Where(p => p.GetCustomAttribute<OptionAttribute>() != null && p.CanWrite);
@@ -160,7 +161,17 @@ namespace Toolbox.CommandLine
         {
             var collector = new StringCollector(width);
 
-            collector.AppendLine("${name}");
+            var assembly = Assembly.GetEntryAssembly();
+            if (assembly != null)
+            {
+                collector.AppendLine($"{Path.GetFileName(assembly.Location)} - {assembly.GetName().Version}");
+            }
+            else
+            {
+                var name = Path.GetFileName(AppDomain.CurrentDomain.FriendlyName);
+                collector.AppendLine($"{name}");
+            }
+            collector.AppendLine("");
 
             var options = Options.Select(o => o.GetUsage(Parser.OptionChar));
 
