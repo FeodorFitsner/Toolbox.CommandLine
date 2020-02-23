@@ -20,6 +20,7 @@ namespace Toolbox.CommandLine
             DefaultValue = property.GetCustomAttribute<DefaultValueAttribute>();
             Mandatory = property.GetCustomAttribute<MandatoryAttribute>() != null;
             Position = property.GetCustomAttribute<PositionAttribute>()?.Position;
+            Description = property.GetCustomAttribute<DescriptionAttribute>()?.Description ?? "";
         }
 
         /// <summary>
@@ -34,6 +35,11 @@ namespace Toolbox.CommandLine
         /// Get the default value if one is present.
         /// </summary>
         public DefaultValueAttribute DefaultValue { get; }
+        /// <summary>
+        /// Get the description of the option
+        /// </summary>
+        /// <see cref="DescriptionAttribute"/>
+        public string Description { get; }
         /// <summary>
         /// Get the postion if one is present.
         /// </summary>

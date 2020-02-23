@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Toolbox.CommandLine
 {
@@ -181,19 +183,70 @@ namespace Toolbox.CommandLine
         /// </remarks>
         public string GetHelpText(string verb = null, int width = 80)
         {
-            if (OptionTypes.Count == 1 && verb != null)
-                throw new ArgumentException("No verb allowed on single option.", nameof(verb));
-            if (OptionTypes.Count > 1 && verb == null)
-                throw new ArgumentNullException("Verb mandatory on multiple options", nameof(verb));
+            var collector = new StringCollector(width);
+            var assembly = Assembly.GetEntryAssembly();
 
-            var optionType = OptionType;
-            if (verb != null)
+            string name;
+            string executable;
+            string version;
+            if (assembly != null)
             {
-                if (!OptionTypes.TryGetValue(verb, out optionType))
-                    throw new ArgumentOutOfRangeException($"verb '{verb}' not found", nameof(verb));
+                version = assembly.GetName().Version.ToString();
+                executable = Path.GetFileName(assembly.Location);
+
+                var titleAttribute = assembly.GetCustomAttribute<AssemblyTitleAttribute>();
+                if (titleAttribute != null)
+                    name = titleAttribute.Title;
+                else
+                    name = Path.GetFileNameWithoutExtension(executable);
+            }
+            else
+            {
+                name = "<no assembly title>";
+                version = "<no assembly version>";
+                executable = "<no executable>";
+            }
+            collector.AppendLine($"{name} - {version}");
+            collector.AppendLine("");
+
+            var descriptionAttribute = assembly?.GetCustomAttribute<AssemblyDescriptionAttribute>();
+            if (descriptionAttribute != null)
+            {
+                collector.AppendLine("DESCRIPTION");
+                collector.Indent = 2;
+                collector.AppendLine(descriptionAttribute.Description);
+                collector.Indent = 0;
+                collector.AppendLine("");
             }
 
-            return optionType.GetHelpText(width);
+            if (verb != null)
+            {
+                OptionTypes[verb].GetHelpText(collector, executable);
+            }
+            else if (OptionTypes.Count == 1)
+                OptionType.GetHelpText(collector, executable);
+            else
+            {
+                collector.AppendLine("SYNTAX");
+                collector.Indent = 2;
+                collector.AppendLine($"{executable} <verb> <options>");
+                collector.AppendLine("");
+                collector.Indent = 0;
+
+                collector.AppendLine("VERBS");
+                collector.Indent = 2;
+                foreach (var optionType in OptionTypes.Values)
+                {
+                    collector.Append(optionType.Verb);
+                    if (optionType.Description != "")
+                        collector.AppendLine($"- {optionType.Description}");
+                    else
+                        collector.AppendLine("");
+                }
+                collector.Indent = 0;
+            }
+
+            return collector.ToString();
         }
     }
 }

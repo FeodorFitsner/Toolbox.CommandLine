@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Toolbox.CommandLine.Demo1")]
-[assembly: AssemblyDescription("Demonstration programm for the Toolbox.CommandLine package.")]
+[assembly: AssemblyTitle("Toolbox.CommandLine.Demo2")]
+[assembly: AssemblyDescription("Demonstration of verbs with the Toolbox.CommandLine package.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Calteo")]
-[assembly: AssemblyProduct("Toolbox.CommandLine.Demo1")]
+[assembly: AssemblyProduct("Toolbox.CommandLine.Demo2")]
 [assembly: AssemblyCopyright("Copyright © Calteo 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("658bcd76-76cf-42eb-8a29-99b263b3966d")]
+[assembly: Guid("885cf717-88a2-4888-bcc5-9d53009d9561")]
 
 // Version information for an assembly consists of the following four values:
 //

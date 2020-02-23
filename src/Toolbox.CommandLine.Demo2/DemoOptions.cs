@@ -1,16 +1,12 @@
 ﻿using System.ComponentModel;
 
-namespace Toolbox.CommandLine.Demo1
+namespace Toolbox.CommandLine.Demo2
 {
     class DemoOptions
     {
         [Option("name"), Mandatory, Position(0)]
         [Description("The name of a person.")]
         public string Name { get; set; }
-
-        [Option("company"), Position(1), DefaultValue("myCompany")]
-        [Description("The company of a person.")]
-        public string Company { get; set; }
 
         [Option("quiet")]
         [Description("Turns off most of the output")]

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -159,20 +161,45 @@ namespace Toolbox.CommandLine
             }
         }
 
-        internal string GetHelpText(int width)
+        internal string Description => Type.GetCustomAttribute<DescriptionAttribute>()?.Description ?? "";
+
+        internal string GetHelpText(StringCollector collector, string executable)
         {
-            var collector = new StringCollector(width);
-
-            collector.AppendLine("${name}");
-
             var options = Options.Select(o => o.GetUsage(Parser.OptionChar));
 
             collector.AppendLine("SYNTAX");
             collector.Indent = 2;
+            collector.Append(executable);
+
             foreach (var option in options)
             {
                 collector.Append(option);
             }
+            collector.AppendLine("");
+            collector.Indent = 0;
+
+            collector.AppendLine("");
+            collector.AppendLine("OPTIONS");
+            collector.Indent = 2;
+            foreach (var option in Options)
+            {
+                collector.AppendLine(option.GetUsage(Parser.OptionChar));
+                if (option.Description != "")
+                {
+                    collector.Indent += 2;
+                    collector.AppendLine(option.Description);
+                    collector.Indent -= 2;
+                }
+                if (option.DefaultValue != null)
+                {
+                    collector.Indent += 2;
+                    collector.AppendLine($"default: '{option.DefaultValue.Value}'");
+                    collector.Indent -= 2;
+                }
+                collector.AppendLine("");
+            }
+            collector.Indent = 0;
+
             return collector.ToString();
         }
     }
