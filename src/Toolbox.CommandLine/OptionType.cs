@@ -115,13 +115,16 @@ namespace Toolbox.CommandLine
                             }
                             else
                             {
-                                if (queue.Count == 0)
-                                    result.SetState(State.MissingValue, $"option needs value after [{count}] '{arg}'.");
-                                else
+                                if (value == null)
                                 {
-                                    if (value == null)
+                                    if (queue.Count == 0)
+                                        result.SetState(State.MissingValue, $"option needs value after [{count}] '{arg}'.");
+                                    else
                                         value = queue.Dequeue();
-
+                                }
+                                
+                                if (value != null)
+                                {
                                     try
                                     {
                                         option.SetValue(result.Option, value);
