@@ -32,6 +32,19 @@ references:
   isSpec: "True"
   fullName: Toolbox.CommandLine.Option.DefaultValue
   nameWithType: Option.DefaultValue
+- uid: Toolbox.CommandLine.Option.Description
+  name: Description
+  href: api/Toolbox.CommandLine.Option.html#Toolbox_CommandLine_Option_Description
+  commentId: P:Toolbox.CommandLine.Option.Description
+  fullName: Toolbox.CommandLine.Option.Description
+  nameWithType: Option.Description
+- uid: Toolbox.CommandLine.Option.Description*
+  name: Description
+  href: api/Toolbox.CommandLine.Option.html#Toolbox_CommandLine_Option_Description_
+  commentId: Overload:Toolbox.CommandLine.Option.Description
+  isSpec: "True"
+  fullName: Toolbox.CommandLine.Option.Description
+  nameWithType: Option.Description
 - uid: Toolbox.CommandLine.Option.IsSwitch
   name: IsSwitch
   href: api/Toolbox.CommandLine.Option.html#Toolbox_CommandLine_Option_IsSwitch
@@ -206,6 +219,15 @@ references:
   commentId: T:Toolbox.CommandLine.Parser
   fullName: Toolbox.CommandLine.Parser
   nameWithType: Parser
+- uid: Toolbox.CommandLine.Parser.#ctor(System.Collections.Generic.IDictionary{System.String,System.Type})
+  name: Parser(IDictionary<String, Type>)
+  href: api/Toolbox.CommandLine.Parser.html#Toolbox_CommandLine_Parser__ctor_System_Collections_Generic_IDictionary_System_String_System_Type__
+  commentId: M:Toolbox.CommandLine.Parser.#ctor(System.Collections.Generic.IDictionary{System.String,System.Type})
+  name.vb: Parser(IDictionary(Of String, Type))
+  fullName: Toolbox.CommandLine.Parser.Parser(System.Collections.Generic.IDictionary<System.String, System.Type>)
+  fullName.vb: Toolbox.CommandLine.Parser.Parser(System.Collections.Generic.IDictionary(Of System.String, System.Type))
+  nameWithType: Parser.Parser(IDictionary<String, Type>)
+  nameWithType.vb: Parser.Parser(IDictionary(Of String, Type))
 - uid: Toolbox.CommandLine.Parser.#ctor(System.Type[])
   name: Parser(Type[])
   href: api/Toolbox.CommandLine.Parser.html#Toolbox_CommandLine_Parser__ctor_System_Type___
@@ -286,6 +308,19 @@ references:
   isSpec: "True"
   fullName: Toolbox.CommandLine.Parser.OptionChar
   nameWithType: Parser.OptionChar
+- uid: Toolbox.CommandLine.Parser.OptionType
+  name: OptionType
+  href: api/Toolbox.CommandLine.Parser.html#Toolbox_CommandLine_Parser_OptionType
+  commentId: P:Toolbox.CommandLine.Parser.OptionType
+  fullName: Toolbox.CommandLine.Parser.OptionType
+  nameWithType: Parser.OptionType
+- uid: Toolbox.CommandLine.Parser.OptionType*
+  name: OptionType
+  href: api/Toolbox.CommandLine.Parser.html#Toolbox_CommandLine_Parser_OptionType_
+  commentId: Overload:Toolbox.CommandLine.Parser.OptionType
+  isSpec: "True"
+  fullName: Toolbox.CommandLine.Parser.OptionType
+  nameWithType: Parser.OptionType
 - uid: Toolbox.CommandLine.Parser.OptionTypes
   name: OptionTypes
   href: api/Toolbox.CommandLine.Parser.html#Toolbox_CommandLine_Parser_OptionTypes
@@ -337,6 +372,15 @@ references:
   fullName.vb: Toolbox.CommandLine.ParseResult.On(Of T)(System.Func(Of T, System.Int32))
   nameWithType: ParseResult.On<T>(Func<T, Int32>)
   nameWithType.vb: ParseResult.On(Of T)(Func(Of T, Int32))
+- uid: Toolbox.CommandLine.ParseResult.On``1(System.String,System.Func{``0,System.Int32})
+  name: On<T>(String, Func<T, Int32>)
+  href: api/Toolbox.CommandLine.ParseResult.html#Toolbox_CommandLine_ParseResult_On__1_System_String_System_Func___0_System_Int32__
+  commentId: M:Toolbox.CommandLine.ParseResult.On``1(System.String,System.Func{``0,System.Int32})
+  name.vb: On(Of T)(String, Func(Of T, Int32))
+  fullName: Toolbox.CommandLine.ParseResult.On<T>(System.String, System.Func<T, System.Int32>)
+  fullName.vb: Toolbox.CommandLine.ParseResult.On(Of T)(System.String, System.Func(Of T, System.Int32))
+  nameWithType: ParseResult.On<T>(String, Func<T, Int32>)
+  nameWithType.vb: ParseResult.On(Of T)(String, Func(Of T, Int32))
 - uid: Toolbox.CommandLine.ParseResult.OnError(System.Func{Toolbox.CommandLine.ParseResult,System.Int32})
   name: OnError(Func<ParseResult, Int32>)
   href: api/Toolbox.CommandLine.ParseResult.html#Toolbox_CommandLine_ParseResult_OnError_System_Func_Toolbox_CommandLine_ParseResult_System_Int32__
