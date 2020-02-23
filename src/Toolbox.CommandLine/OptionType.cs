@@ -15,11 +15,11 @@ namespace Toolbox.CommandLine
         /// </summary>
         /// <param name="parser">The parser creating these arguments.</param>
         /// <param name="type">The type of the options</param>
-        internal OptionType(Parser parser, Type type)
+        internal OptionType(Parser parser, Type type, string verb = null)
         {
             Parser = parser;
             Type = type;
-            Verb = type.GetCustomAttribute<VerbAttribute>()?.Verb;
+            Verb = verb ?? type.GetCustomAttribute<VerbAttribute>()?.Verb;
 
             var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                             .Where(p => p.GetCustomAttribute<OptionAttribute>() != null && p.CanWrite);

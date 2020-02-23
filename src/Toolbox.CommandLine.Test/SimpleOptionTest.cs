@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Toolbox.CommandLine.Test
@@ -25,12 +26,12 @@ namespace Toolbox.CommandLine.Test
         {
             var cut = new Parser(typeof(SimpleOption));
 
-            Assert.AreEqual(1, cut.OptionTypes.Length);
-            Assert.AreEqual(typeof(SimpleOption), cut.OptionTypes[0].Type);
-            Assert.IsNull(cut.OptionTypes[0].Verb);
-            Assert.AreEqual(1, cut.OptionTypes[0].Options.Length);
-            Assert.AreEqual("f", cut.OptionTypes[0].Options[0].Name);
-            Assert.AreEqual("FileName", cut.OptionTypes[0].Options[0].Property.Name);
+            Assert.AreEqual(1, cut.OptionTypes.Count);
+            Assert.AreEqual(typeof(SimpleOption), cut.OptionType.Type);
+            Assert.AreEqual("", cut.OptionType.Verb);
+            Assert.AreEqual(1, cut.OptionType.Options.Length);
+            Assert.AreEqual("f", cut.OptionType.Options[0].Name);
+            Assert.AreEqual("FileName", cut.OptionType.Options[0].Property.Name);
         }
 
         [TestMethod]

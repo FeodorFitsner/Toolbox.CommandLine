@@ -78,6 +78,23 @@ namespace Toolbox.CommandLine
         }
 
         /// <summary>
+        /// Handler for a given option type and a certain verb.
+        /// </summary>
+        /// <typeparam name="T">Type to handle</typeparam>
+        /// <param name="verb">verb to match</param>
+        /// <param name="handler">Function to call</param>
+        /// <returns></returns>
+        public ParseResult On<T>(string verb, Func<T, int> handler) where T : class
+        {
+            if (State == State.Succeeded && Verb==verb && Option is T option)
+            {
+                Return = handler(option);
+            }
+            return this;
+        }
+
+
+        /// <summary>
         /// Handler for a help request.
         /// </summary>
         /// <param name="handler">Function to call for doing the help</param>

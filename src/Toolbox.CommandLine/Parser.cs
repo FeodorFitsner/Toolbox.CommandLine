@@ -24,22 +24,41 @@ namespace Toolbox.CommandLine
             if (types.Length == 0)
                 throw new ArgumentException("No types specified.", nameof(types));
 
-            OptionTypes = types.Select(t => new OptionType(this, t)).ToArray();
-            if (OptionTypes.Length > 1)
-            {
-                var noVerbs = OptionTypes.Where(a => a.Verb == null);
+            if (types.Length == 1)
+                OptionTypes = new Dictionary<string, OptionType> { { "", new OptionType(this, types[0], "") } };
+            else
+            { 
+                var optionTypes = types.Select(t => new OptionType(this, t)).ToArray();
+                var noVerbs = optionTypes.Where(ot => string.IsNullOrEmpty(ot.Verb));
                 if (noVerbs.Any())
                 {
-                    throw new ArgumentException($"no verb on types: {string.Join(", ", noVerbs.Select(a => a.Type.FullName))}");
+                    throw new ArgumentException($"Empty verbs not allowed.", nameof(types));
                 }
-
-                if (OptionTypes.GroupBy(a => a.Verb).Any(g => g.Count()>1))
+                if (optionTypes.GroupBy(ot => ot.Verb).Any(g => g.Count() > 1))
                 {
-                    throw new ArgumentException($"duplicate verbs on parsing types.", nameof(types));
+                    throw new ArgumentException($"Duplicate verbs on parsing types.", nameof(types));
                 }
+                OptionTypes = optionTypes.ToDictionary(ot => ot.Verb);
             }
         }
 
+        /// <summary>
+        /// Initialize a new instance of the <see cref="Parser"/> class.
+        /// </summary>
+        /// <param name="verbs">A dictionary of verbs and options types.</param>
+        /// <remarks>
+        /// The verbs from the <see cref="VerbAttribute"/> are ignored.
+        /// </remarks>
+        public Parser(IDictionary<string, Type> verbs)
+        {
+            if (verbs.Count < 1)
+                throw new ArgumentException($"Minimum of two verbs need to be specified.", nameof(verbs));
+            if (verbs.ContainsKey(""))
+                throw new ArgumentException($"Empty verbs not allowed.", nameof(verbs));
+
+            OptionTypes = verbs.ToDictionary(kvp => kvp.Key, kvp => new OptionType(this, kvp.Value));
+        }
+               
         /// <summary>
         /// Create a <see cref="Parser"/> for type T.
         /// </summary>
@@ -66,7 +85,12 @@ namespace Toolbox.CommandLine
         /// <summary>
         /// Get the list of possible options.
         /// </summary>
-        public OptionType[] OptionTypes { get; }
+        public IReadOnlyDictionary<string,OptionType> OptionTypes { get; private set; }
+        /// <summary>
+        /// Gets the first <see cref="OptionType"/>.
+        /// </summary>
+        public OptionType OptionType => OptionTypes.First().Value;
+        
         /// <summary>
         /// Gets or sets the character begining an option.
         /// </summary>
@@ -109,8 +133,8 @@ namespace Toolbox.CommandLine
 
             var result = new ParseResult();
 
-            var optionType = OptionTypes[0];
-            if (OptionTypes.Length>1)
+            var optionType = OptionType;
+            if (OptionTypes.Count > 1)
             {
                 if (queue.Count==0)
                 {
@@ -130,8 +154,7 @@ namespace Toolbox.CommandLine
                     }
                     else
                     {
-                        optionType = OptionTypes.FirstOrDefault(a => a.Verb == verb);
-                        if (optionType == null)
+                        if (!OptionTypes.TryGetValue(verb, out optionType))
                             result.SetState(State.MissingVerb, $"verb '{args[0]}' not defined");
 
                         result.Verb = verb;
@@ -139,7 +162,7 @@ namespace Toolbox.CommandLine
                 }                    
             }
 
-            if (result.State== State.Succeeded)
+            if (result.State == State.Succeeded)
             {
                 optionType.Parse(result, queue);
             }
@@ -158,17 +181,16 @@ namespace Toolbox.CommandLine
         /// </remarks>
         public string GetHelpText(string verb = null, int width = 80)
         {
-            if (OptionTypes.Length == 1 && verb != null)
-                throw new ArgumentException("no verb allowed on single option", nameof(verb));
-            if (OptionTypes.Length > 1 && verb == null)
-                throw new ArgumentNullException("verb mandatory on multiple options", nameof(verb));
+            if (OptionTypes.Count == 1 && verb != null)
+                throw new ArgumentException("No verb allowed on single option.", nameof(verb));
+            if (OptionTypes.Count > 1 && verb == null)
+                throw new ArgumentNullException("Verb mandatory on multiple options", nameof(verb));
 
-            var optionType = OptionTypes[0];
+            var optionType = OptionType;
             if (verb != null)
             {
-                optionType = OptionTypes.FirstOrDefault(a => a.Verb == verb);
-                if (optionType == null)
-                    throw new ArgumentOutOfRangeException("verb '{verb}' not found", nameof(verb));
+                if (!OptionTypes.TryGetValue(verb, out optionType))
+                    throw new ArgumentOutOfRangeException($"verb '{verb}' not found", nameof(verb));
             }
 
             return optionType.GetHelpText(width);

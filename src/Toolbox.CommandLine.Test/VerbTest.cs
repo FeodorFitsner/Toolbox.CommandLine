@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Toolbox.CommandLine.Test
@@ -61,5 +62,50 @@ namespace Toolbox.CommandLine.Test
             Assert.AreEqual(State.RequestHelp, result.State);
             Assert.IsNull(result.Option);
         }
+
+        [TestMethod]
+        public void ParseVerbsSameOptionClass()
+        {
+            var verbs = new Dictionary<string, Type>
+            {
+                { "add", typeof(VerbAddOption)  },
+                { "remove", typeof(VerbAddOption)  },
+            };
+            var cut = new Parser(verbs);
+
+            const string name = "some name";
+
+            var args = new[] { "add", "-n", name };
+
+            var result = cut.Parse(args);
+
+            Assert.AreEqual(State.Succeeded, result.State);
+            Assert.IsInstanceOfType(result.Option, typeof(VerbAddOption));
+            Assert.AreEqual("add", result.Verb);
+            Assert.AreEqual(name, ((VerbAddOption)result.Option).Name);
+        }
+
+        [TestMethod]
+        public void ParseVerbsSameOptionClassSecondClass()
+        {
+            var verbs = new Dictionary<string, Type>
+            {
+                { "add", typeof(VerbAddOption)  },
+                { "remove", typeof(VerbAddOption)  },
+            };
+            var cut = new Parser(verbs);
+
+            const string name = "some name";
+
+            var args = new[] { "remove", "-n", name };
+
+            var result = cut.Parse(args);
+
+            Assert.AreEqual(State.Succeeded, result.State);
+            Assert.IsInstanceOfType(result.Option, typeof(VerbAddOption));
+            Assert.AreEqual("remove", result.Verb);
+            Assert.AreEqual(name, ((VerbAddOption)result.Option).Name);
+        }
+
     }
 }

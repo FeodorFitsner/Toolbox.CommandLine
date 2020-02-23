@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Toolbox.CommandLine.Test
@@ -97,5 +98,32 @@ namespace Toolbox.CommandLine.Test
 
             Assert.AreEqual(-3, result, "OnHelp executed incorrect");
         }
+
+        [TestMethod]
+        public void ParseVerbsSameOptionClass()
+        {
+            var verbs = new Dictionary<string, Type>
+            {
+                { "add", typeof(VerbAddOption)  },
+                { "remove", typeof(VerbAddOption)  },
+            };
+            var parser = new Parser(verbs);
+
+            const string name = "some name";
+
+            var args = new[] { "add", "-n", name };
+
+            var cut = parser.Parse(args);
+
+            var result = cut
+                    .On<VerbAddOption>("add", o => 1)
+                    .On<VerbAddOption>("remove", o => 2)
+                    .OnHelp(r => r.Option != null && r.Option is VerbAddOption ? -3 : -1)
+                    .OnError(r => -2).Return;
+
+
+            Assert.AreEqual(1, result, "On<VerbAddOption> not executed");
+        }
+
     }
 }
