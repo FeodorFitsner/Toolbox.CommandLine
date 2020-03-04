@@ -8,7 +8,7 @@
     <title>Introduction </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Introduction ">
-    <meta name="generator" content="docfx 2.49.0.0">
+    <meta name="generator" content="docfx 2.50.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -69,6 +69,67 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="introduction">Introduction</h1>
 
+<p>With this component it is possible to easily parse the command line arguments in to an object.</p>
+<h2 id="option-class">Option class</h2>
+<p>The parsed options go into an object of some class, that needs to</p>
+<ul>
+<li>an default constructor</li>
+<li>some properties decorated with the <a class="xref" href="../api/Toolbox.CommandLine.OptionAttribute.html">OptionAttribute</a></li>
+</ul>
+<p>Some other attribute can provide futher information how the options are indent to be used.</p>
+<p>A simple example of an option class.</p>
+<pre><code>    class DemoOptions
+    {
+        [Option(&quot;name&quot;)]
+        public string Name { get; set; }
+
+        [Option(&quot;company&quot;)]
+        public string Company { get; set; }
+
+        [Option(&quot;quiet&quot;)]
+        public bool Quiet { get; set; }
+    }
+</code></pre>
+<p>The argument of the <code>OptionAttribute</code> is the name the argument on the command line.
+It can differ from the name of the propery.</p>
+<p>Properties of most basic types are supported (i.e. <code>string</code>, <code>int</code>, <code>DateTime</code>, <code>bool</code>).</p>
+<p>Nullable types (i.e. <code>int?</code>) are supported too. If the argument is not given then the property will be <code>null</code>.
+In the case of just <code>int</code> the value would be <code>0</code>. So with these types it can be detected if an argument was given
+on the command line.</p>
+<p>The example can be used on the command line like this</p>
+<pre><code>some.exe -name Hugo -company &quot;Big Tech Corp.&quot; -quiet
+</code></pre>
+<p>The argument <code>quiet</code> does not take a value, since it automatically will set the property <code>Quiet</code> to <code>true</code>.
+For all other arguments the value is converted to the corresponding type.</p>
+<h2 id="using-the-options">Using the options</h2>
+<p>The easiest way to use these options is this example.</p>
+<pre><code>    static int Main(string[] args)
+    {
+        var parser = Parser.Create&lt;DemoOptions&gt;();
+        var result = parser.Parse(args)
+            .OnError(r =&gt;
+            {
+                // gets called in case of an error in the arguments given
+                Console.WriteLine(r.Text);
+                return -2;
+            })
+            .On&lt;DemoOptions&gt;(o =&gt; 
+            {
+                // gets called when the arguments are succesfully parsed
+                Console.WriteLine($&quot;Options [{o.GetType().Name}]&quot;);
+                Console.WriteLine($&quot;Name = '{o.Name}'&quot;);
+                Console.WriteLine($&quot;Company = '{o.Company}'&quot;);
+                Console.WriteLine($&quot;Quiet = '{o.Quiet}'&quot;);
+                return 0;
+            });
+
+        Console.WriteLine(&quot;&quot;);
+        Console.WriteLine($&quot;return = {result.Return}&quot;);
+
+        return result.Return;
+    }
+</code></pre>
+<p>You can - of course - just call <code>Parse</code> and interpret the <code>result</code> as you like.</p>
 </article>
           </div>
           
