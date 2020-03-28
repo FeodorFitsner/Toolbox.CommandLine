@@ -140,7 +140,7 @@ namespace Toolbox.CommandLine
             {
                 if (queue.Count==0)
                 {
-                    result.SetState(State.MissingVerb);
+                    result.SetState(State.MissingVerb, "no verb given");
                 }
                 else
                 {
