@@ -161,7 +161,7 @@ namespace Toolbox.CommandLine
             }
         }
 
-        internal string Description => Type.GetCustomAttribute<DescriptionAttribute>()?.Description ?? "";
+        internal string Description => Type.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? "";
 
         internal string GetHelpText(StringCollector collector, string executable)
         {
