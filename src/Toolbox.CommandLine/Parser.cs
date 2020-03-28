@@ -133,7 +133,7 @@ namespace Toolbox.CommandLine
 
             var queue = new Queue<string>(args);
 
-            var result = new ParseResult();
+            var result = new ParseResult { Parser = this };
 
             var optionType = OptionType;
             if (OptionTypes.Count > 1)

@@ -8,6 +8,10 @@ namespace Toolbox.CommandLine
     public class ParseResult
     {
         /// <summary>
+        /// Get the <see cref="Parser"/> that created the result
+        /// </summary>
+        public Parser Parser { get; internal set; }
+        /// <summary>
         /// Gets the state of the parsing
         /// </summary>
         public State State { get; private set; } = State.Succeeded;
@@ -122,6 +126,16 @@ namespace Toolbox.CommandLine
                 Return = handler(this);
             }
             return this;
+        }
+
+        /// <summary>
+        /// Gets the help text for the result.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <returns></returns>
+        public string GetHelpText(int width = 80)
+        {
+            return Parser.GetHelpText(Verb, width);
         }
     }
 
