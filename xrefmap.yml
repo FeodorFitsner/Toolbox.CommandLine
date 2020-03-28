@@ -356,6 +356,19 @@ references:
   commentId: T:Toolbox.CommandLine.ParseResult
   fullName: Toolbox.CommandLine.ParseResult
   nameWithType: ParseResult
+- uid: Toolbox.CommandLine.ParseResult.GetHelpText(System.Int32)
+  name: GetHelpText(Int32)
+  href: api/Toolbox.CommandLine.ParseResult.html#Toolbox_CommandLine_ParseResult_GetHelpText_System_Int32_
+  commentId: M:Toolbox.CommandLine.ParseResult.GetHelpText(System.Int32)
+  fullName: Toolbox.CommandLine.ParseResult.GetHelpText(System.Int32)
+  nameWithType: ParseResult.GetHelpText(Int32)
+- uid: Toolbox.CommandLine.ParseResult.GetHelpText*
+  name: GetHelpText
+  href: api/Toolbox.CommandLine.ParseResult.html#Toolbox_CommandLine_ParseResult_GetHelpText_
+  commentId: Overload:Toolbox.CommandLine.ParseResult.GetHelpText
+  isSpec: "True"
+  fullName: Toolbox.CommandLine.ParseResult.GetHelpText
+  nameWithType: ParseResult.GetHelpText
 - uid: Toolbox.CommandLine.ParseResult.On*
   name: On
   href: api/Toolbox.CommandLine.ParseResult.html#Toolbox_CommandLine_ParseResult_On_
@@ -426,6 +439,19 @@ references:
   isSpec: "True"
   fullName: Toolbox.CommandLine.ParseResult.Option
   nameWithType: ParseResult.Option
+- uid: Toolbox.CommandLine.ParseResult.Parser
+  name: Parser
+  href: api/Toolbox.CommandLine.ParseResult.html#Toolbox_CommandLine_ParseResult_Parser
+  commentId: P:Toolbox.CommandLine.ParseResult.Parser
+  fullName: Toolbox.CommandLine.ParseResult.Parser
+  nameWithType: ParseResult.Parser
+- uid: Toolbox.CommandLine.ParseResult.Parser*
+  name: Parser
+  href: api/Toolbox.CommandLine.ParseResult.html#Toolbox_CommandLine_ParseResult_Parser_
+  commentId: Overload:Toolbox.CommandLine.ParseResult.Parser
+  isSpec: "True"
+  fullName: Toolbox.CommandLine.ParseResult.Parser
+  nameWithType: ParseResult.Parser
 - uid: Toolbox.CommandLine.ParseResult.Return
   name: Return
   href: api/Toolbox.CommandLine.ParseResult.html#Toolbox_CommandLine_ParseResult_Return
