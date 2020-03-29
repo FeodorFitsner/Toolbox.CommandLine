@@ -16,6 +16,7 @@ namespace Toolbox.CommandLine.Test
             const decimal dec = 47.11M;
             var date = DateTime.Today;
             var now = DateTime.Today.AddHours(15).AddMinutes(14).AddSeconds(53);
+            var longNumber = 123467890L;
             
             var args = new string[]
             {
@@ -25,7 +26,8 @@ namespace Toolbox.CommandLine.Test
                 "-nullnumber", number.ToString(),
                 "-decimal", dec.ToString(),
                 "-date", date.ToString("d"),
-                "-now", now.ToString("G")
+                "-now", now.ToString("G"),
+                "-long", longNumber.ToString()
             };
 
             var result = cut.Parse(args);
@@ -42,6 +44,7 @@ namespace Toolbox.CommandLine.Test
             Assert.AreEqual(dec, option.Decimal);
             Assert.AreEqual(date, option.Date);
             Assert.AreEqual(now, option.Now);
+            Assert.AreEqual(longNumber, option.LongNumber);
         }
 
         [TestMethod]

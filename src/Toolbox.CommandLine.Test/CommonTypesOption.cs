@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Toolbox.CommandLine.Test
 {
@@ -24,6 +25,10 @@ namespace Toolbox.CommandLine.Test
 
         [Option("nullnumber")]
         public int? NullNumber { get; set; }
+
+        [Option("long")]
+        [DefaultValue(long.MaxValue)]
+        public long LongNumber { get; set; }
 
 
     }
