@@ -20,6 +20,9 @@ namespace Toolbox.CommandLine.Test
         [Option("date"),Position(2)]
         public DateTime Date { get; set; }
 
+        [Option("timespan")]
+        public TimeSpan TimeSpan { get; set; }
+
         [Option("now")]
         public DateTime Now { get; set; }
 

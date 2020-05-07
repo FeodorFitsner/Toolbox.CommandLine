@@ -79,18 +79,24 @@ namespace Toolbox.CommandLine
         }
 
         private object ConvertTo(Type type, string value)
-        {
-            if (type.IsAssignableFrom(typeof(string))) return value;
-
-            if (Property.PropertyType.IsGenericType)
+        {           
+            if (type.IsGenericType)
             {
-                var genericType = Property.PropertyType.GetGenericTypeDefinition();
+                var genericType = type.GetGenericTypeDefinition();
                 if (genericType == typeof(Nullable<>))
                 {
-                    return Convert.ChangeType(value, Property.PropertyType.GetGenericArguments()[0]);
+                    return ConvertToCore(type.GetGenericArguments()[0], value);
                 }
             }
-            return Convert.ChangeType(value, Property.PropertyType);
+            return ConvertToCore(type, value);
+        }
+
+        private object ConvertToCore(Type type, string value)
+        {
+            if (type.IsAssignableFrom(typeof(string))) return value;
+            if (type.IsAssignableFrom(typeof(TimeSpan))) return TimeSpan.Parse(value);
+
+            return Convert.ChangeType(value, type);
         }
 
         internal void SetDefault(object option)

@@ -28,7 +28,7 @@ A simple example of an option class.
 The argument of the `OptionAttribute` is the name the argument on the command line.
 It can differ from the name of the propery.
 
-Properties of most basic types are supported (i.e. `string`, `int`, `DateTime`, `bool`).
+Properties of most basic types are supported (i.e. `string`, `int`, `bool`, `DateTime`, `TimeSpan`).
 
 Nullable types (i.e. `int?`) are supported too. If the argument is not given then the property will be `null`. 
 In the case of just `int` the value would be `0`. So with these types it can be detected if an argument was given 

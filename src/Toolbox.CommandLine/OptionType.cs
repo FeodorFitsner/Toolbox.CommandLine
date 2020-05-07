@@ -143,7 +143,7 @@ namespace Toolbox.CommandLine
                 count++;
             }
 
-            if (result.State== State.Succeeded)
+            if (result.State==State.Succeeded)
             {
                 var mandatory = Options.Where(o => o.Mandatory && counts[o.Name] == 0);
                 if (mandatory.Any())
