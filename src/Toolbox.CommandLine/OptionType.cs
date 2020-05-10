@@ -190,6 +190,17 @@ namespace Toolbox.CommandLine
                     collector.AppendLine(option.Description);
                     collector.Indent -= 2;
                 }
+                if (option.Property.PropertyType.IsEnum)
+                {
+                    collector.Indent += 4;
+                    foreach (var name in Enum.GetNames(option.Property.PropertyType))
+                    {
+                        var description = option.Property.PropertyType.GetField(name).GetCustomAttribute<DescriptionAttribute>()?.Description;
+                        if (description != null)
+                            collector.AppendLine($"{name} - {description}");
+                    }
+                    collector.Indent -= 4;
+                }
                 if (option.DefaultValue != null)
                 {
                     collector.Indent += 2;

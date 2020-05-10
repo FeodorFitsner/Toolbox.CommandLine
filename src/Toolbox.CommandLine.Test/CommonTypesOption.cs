@@ -35,14 +35,20 @@ namespace Toolbox.CommandLine.Test
 
         [Option("enum")]
         [DefaultValue(Choice.None)]
+        [Description("you have to make a choice here")]
         public Choice Choice { get; set; }
     }
 
+    [Description("some choice")]
     enum Choice
     {
+        [Description("take none")]
         None,
+        [Description("take one")]
         One,
+        [Description("take some more")]
         Many,
+        [Description("take all of them")]
         All
     }
 }
