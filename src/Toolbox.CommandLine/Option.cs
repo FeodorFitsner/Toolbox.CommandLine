@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
@@ -84,6 +85,9 @@ namespace Toolbox.CommandLine
             {
                 return ConvertToCore(type.GetGenericArguments()[0], value);                
             }
+            if (type.IsEnum)
+                return Enum.Parse(type, value);
+
             return ConvertToCore(type, value);
         }
 
@@ -111,12 +115,21 @@ namespace Toolbox.CommandLine
             Property.SetValue(option, true);
         }
 
+        private string GetTypeText(Type type)
+        {
+            if (type.IsEnum)
+            {
+                return string.Join("|", Enum.GetNames(type));
+            }
+            return type.Name;
+        }
+
         internal string GetUsage(char optionChar)
         {
-            var typeText = $"<{Property.PropertyType.Name}>";
+            var typeText = $"<{GetTypeText(Property.PropertyType)}>";
             if (IsNullable(Property.PropertyType))
             {
-                typeText = $"<{Property.PropertyType.GetGenericArguments()[0].Name}?>";
+                typeText = $"<{GetTypeText(Property.PropertyType.GetGenericArguments()[0])}?>";
             }
             var nameText = $"{optionChar}{Name}";
             if (Position.HasValue)

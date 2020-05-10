@@ -18,6 +18,7 @@ namespace Toolbox.CommandLine.Test
             var now = DateTime.Today.AddHours(15).AddMinutes(14).AddSeconds(53);
             var longNumber = 123467890L;
             var timeSpan = new TimeSpan(5, 11, 46, 47, 500);
+            var choice = Choice.Many;
             
             var args = new string[]
             {
@@ -29,7 +30,8 @@ namespace Toolbox.CommandLine.Test
                 "-date", date.ToString("d"),
                 "-now", now.ToString("G"),
                 "-long", longNumber.ToString(),
-                "-timespan", timeSpan.ToString()
+                "-timespan", timeSpan.ToString(),
+                "-enum", choice.ToString(),
             };
 
             var result = cut.Parse(args);
@@ -48,6 +50,7 @@ namespace Toolbox.CommandLine.Test
             Assert.AreEqual(now, option.Now);
             Assert.AreEqual(longNumber, option.LongNumber);
             Assert.AreEqual(timeSpan, option.TimeSpan);
+            Assert.AreEqual(choice, option.Choice);
         }
 
         [TestMethod]

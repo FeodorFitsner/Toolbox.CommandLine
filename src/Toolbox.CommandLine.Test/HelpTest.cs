@@ -25,5 +25,25 @@ namespace Toolbox.CommandLine.Test
 
             Assert.AreEqual(5, rc);            
         }
+
+        [TestMethod]
+        public void RequestHelpCommon()
+        {
+            var cut = Parser.Create<CommonTypesOption>();
+
+            var args = new[] { "-?" };
+
+            var result = cut.Parse(args);
+
+            string text = null;
+
+            var rc = result.OnHelp(r =>
+            {
+                text = cut.GetHelpText();
+                return 5;
+            }).Return;
+
+            Assert.AreEqual(5, rc);
+        }
     }
 }

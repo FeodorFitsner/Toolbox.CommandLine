@@ -33,6 +33,16 @@ namespace Toolbox.CommandLine.Test
         [DefaultValue(long.MaxValue)]
         public long LongNumber { get; set; }
 
+        [Option("enum")]
+        [DefaultValue(Choice.None)]
+        public Choice Choice { get; set; }
+    }
 
+    enum Choice
+    {
+        None,
+        One,
+        Many,
+        All
     }
 }
