@@ -80,15 +80,16 @@ namespace Toolbox.CommandLine
 
         private object ConvertTo(Type type, string value)
         {           
-            if (type.IsGenericType)
+            if (IsNullable(type))
             {
-                var genericType = type.GetGenericTypeDefinition();
-                if (genericType == typeof(Nullable<>))
-                {
-                    return ConvertToCore(type.GetGenericArguments()[0], value);
-                }
+                return ConvertToCore(type.GetGenericArguments()[0], value);                
             }
             return ConvertToCore(type, value);
+        }
+
+        private bool IsNullable(Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
         private object ConvertToCore(Type type, string value)
@@ -113,6 +114,10 @@ namespace Toolbox.CommandLine
         internal string GetUsage(char optionChar)
         {
             var typeText = $"<{Property.PropertyType.Name}>";
+            if (IsNullable(Property.PropertyType))
+            {
+                typeText = $"<{Property.PropertyType.GetGenericArguments()[0].Name}?>";
+            }
             var nameText = $"{optionChar}{Name}";
             if (Position.HasValue)
                 nameText = $"[{nameText}]";

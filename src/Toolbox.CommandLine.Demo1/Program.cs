@@ -26,6 +26,14 @@ namespace Toolbox.CommandLine.Demo1
                 {
                     Console.WriteLine($"Options [{o.GetType().Name}]");
                     Console.WriteLine($"Name = '{o.Name}'");
+                    if (o.Number.HasValue)
+                    {
+                        Console.WriteLine($"Number = '{o.Number.Value}'");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Number = not given");
+                    }
                     return 0;
                 }
                 );
