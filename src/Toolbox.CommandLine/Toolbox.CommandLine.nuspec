@@ -13,9 +13,9 @@
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>commandline arguments parser</tags>
-    <icon>content\toolbox.png</icon>
+    <icon>lib\toolbox.png</icon>
   </metadata>
   <files>
-    <file src="images\toolbox.png" target="content" />
+    <file src="images\toolbox.png" target="lib" />
   </files>
 </package>
