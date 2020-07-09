@@ -10,8 +10,12 @@
     <projectUrl>https://github.com/Calteo/Toolbox.CommandLine</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>parses commandline arguments to objects</description>
-    <releaseNotes>First beta</releaseNotes>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright 2020</copyright>
     <tags>commandline arguments parser</tags>
+    <icon>content\toolbox.png</icon>
   </metadata>
+  <files>
+    <file src="images\toolbox.png" target="content" />
+  </files>
 </package>
