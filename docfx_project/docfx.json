@@ -55,6 +55,9 @@
     "template": [
       "default"
     ],
+    "globalMetadata": {
+      "_appLogoPath": "images/icon_tools_50.svg"
+    },
     "postProcessors": [],
     "markdownEngineName": "markdig",
     "noLangKeyword": false,
