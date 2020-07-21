@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Attributes </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Attributes ">
+    <meta name="generator" content="docfx 2.56.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../images/icon_tools_50.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="attributes">Attributes</h1>
+
+<p>These are all the attributes and there usages in this component.</p>
+<h2 id="section"><a class="xref" href="../api/Toolbox.CommandLine.OptionAttribute.html">OptionAttribute</a></h2>
+<pre><code>OptionAttribute(string name)
+</code></pre>
+<p>This attribute declares a property to be usable as an argument on the command line.</p>
+<h2 id="section-1"><a class="xref" href="../api/Toolbox.CommandLine.PositionAttribute.html">PositionAttribute</a></h2>
+<pre><code>PositionAttribute(int position)
+</code></pre>
+<p>This declares that an argument can be used at the given postion (starting at <code>0</code>) on the command line.
+The name of the option must not be give.</p>
+<p>All given postions must start at <code>0</code> and must increase always by <code>1</code>.</p>
+<pre><code>    class DemoOptions
+    {
+        [Option(&quot;name&quot;), Position(0)]
+        public string Name { get; set; }
+
+        [Option(&quot;company&quot;), Position(1)]
+        public string Company { get; set; }
+
+        [Option(&quot;quiet&quot;)]
+        public bool Quiet { get; set; }
+    }
+</code></pre>
+<p>This can be used like</p>
+<pre><code>some.exe Hugo &quot;Big Tech Corp.&quot; -quiet
+</code></pre>
+<p>or</p>
+<pre><code>some.exe Hugo -quiet - company &quot;Big Tech Corp.&quot;
+</code></pre>
+<p>or just</p>
+<pre><code>some.exe Hugo
+</code></pre>
+<h2 id="section-2"><a class="xref" href="../api/Toolbox.CommandLine.MandatoryAttribute.html">MandatoryAttribute</a></h2>
+<pre><code>MandatoryAttribute()
+</code></pre>
+<p>This makes an option mandatory. If its argument is not given on the command line, the parsing fails.</p>
+<h2 id="section-3"><a class="xref" href="../api/Toolbox.CommandLine.VerbAttribute.html">VerbAttribute</a></h2>
+<pre><code>VerbAttribute(string name)
+</code></pre>
+<p>This provides a verb for an option type, when used with mutiple options.</p>
+<h2 id="descriptionattribute">DescriptionAttribute</h2>
+<pre><code>DescriptionAttribute(string text)
+</code></pre>
+<p>This provides a description for an option or option type. This will be used for the help options.</p>
+<h2 id="defaultvalueattribute">DefaultValueAttribute</h2>
+<pre><code>DefaultValueOption(object value)
+</code></pre>
+<p>This provides a default value for an option. It this option is not give on the command line the property will
+be set to <code>value</code>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/Calteo/Toolbox.CommandLine/blob/master/docfx_project/articles/attributes.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
